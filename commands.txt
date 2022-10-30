@@ -1,0 +1,33 @@
+python3 -m venv env
+source env/bin/activate
+
+# Install Django and Django REST framework into the virtual environment
+pip install django
+pip install djangorestframework
+
+# Set up a new project with a single application
+django-admin startproject rest_f .  # Note the trailing '.' character
+cd rest_f
+django-admin startapp app
+
+python manage.py createsuperuser --email admin@example.com --username admin
+
+1. create serializers.py
+2. configurate vievs.py
+3. create and configurate urls.py
+4. include urls.py into the global urls.py(near the settings.py)
+5. add 'REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
+}' in settings.py
+6. add app name 'rest_framework' like: 
+
+'INSTALLED_APPS = [
+    ...
+    'rest_framework',
+]' in settings.py
+
+7. python manage.py runserver
+
+8. check http://127.0.0.1:8000/ or 
+    curl -H 'Accept: application/json; indent=4' -u admin:admin http://127.0.0.1:8000
