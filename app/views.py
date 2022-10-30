@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User, Group
-from rest_framework import viewsets
-from rest_framework import permissions
-from .serializers import UserSerializer, GroupSerializer
+from .models import Address, UserList
+from rest_framework import viewsets, permissions
+from .serializers import UserSerializer, GroupSerializer,\
+                AddressSerializer, UsersListSerializer 
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -20,3 +21,19 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     # permission_classes = [permissions.IsAuthenticated]
+
+
+class AddressViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows address to be viewed or edited.
+    """
+    queryset = Address.objects.all()
+    serializer_class = AddressSerializer
+
+
+class UsersListViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows userl list to be viewed or edited.
+    """
+    queryset = UserList.objects.all()
+    serializer_class = UsersListSerializer
