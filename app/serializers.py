@@ -20,6 +20,15 @@ class AddressSerializer(serializers.HyperlinkedModelSerializer):
         model = Address
         fields = ['id', 'country', 'city', 'zip_code', 'street', 'house_num', 'appartaments']
 
+    def create(self, validated_data):
+        # print(validated_data)
+        rezults = Address.objects.create(**validated_data)
+        # print(rezults.id)
+        return rezults
+
+    def update(self, instance, validated_data):
+        pass
+
 
 class UsersListSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

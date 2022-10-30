@@ -1,0 +1,8 @@
+CLASSWORK: https://github.com/yura-seredyuk/web12_drf
+
+Завдання:
+    1. Додати CRUD операції для обробки однієї адреси
+    2. Покрити тестами створені CRUD операції
+
+запуск усіх тестів: python manage.py test -v 2
+запуск конкретного тесту: python manage.py test app.tests.API_Testing.test_post_address -v 2

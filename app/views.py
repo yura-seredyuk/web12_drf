@@ -1,8 +1,11 @@
 from django.contrib.auth.models import User, Group
 from .models import Address, UserList
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, status
 from .serializers import UserSerializer, GroupSerializer,\
                 AddressSerializer, UsersListSerializer 
+from django.http import Http404
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -37,3 +40,30 @@ class UsersListViewSet(viewsets.ModelViewSet):
     """
     queryset = UserList.objects.all()
     serializer_class = UsersListSerializer
+
+
+class AddressView:
+    class AddressList(APIView):
+        def get(self, request, format=None):
+            address = Address.objects.all()
+            serializer = AddressSerializer(address, many=True)
+            return Response(serializer.data)
+
+        def post(self, request, format=None):
+            serializer = AddressSerializer(data = request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    class Address(APIView):
+        def get_object(self, pk):
+            try:
+                return Address.objects.get(pk=pk)
+            except Address.DoesNotExist:
+                raise Http404
+
+        def get(self, request, pk, format=None):
+            address = self.get_object(pk)
+            serializer = AddressSerializer(address)
+            return Response(serializer.data)
