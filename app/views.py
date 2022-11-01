@@ -67,3 +67,12 @@ class AddressView:
             address = self.get_object(pk)
             serializer = AddressSerializer(address)
             return Response(serializer.data)
+
+        def put(self, request, pk, format=None):
+            data = request.data
+            address = self.get_object(pk)
+            serializer = AddressSerializer(address, data=data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
