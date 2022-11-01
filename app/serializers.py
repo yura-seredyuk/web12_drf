@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User, Group
 from .models import Address, UserList
 from rest_framework import serializers
+from .validator import AddressValidator
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -19,6 +20,7 @@ class AddressSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Address
         fields = ['id', 'country', 'city', 'zip_code', 'street', 'house_num', 'appartaments']
+        validators = [AddressValidator()]
 
     def create(self, validated_data):
         # print(validated_data)

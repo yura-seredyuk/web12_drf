@@ -46,7 +46,7 @@ def put_special_adress():
 def put_special_adress_():
     data = {
         'id':8,
-        'appartaments': 100,
+        'appartaments': 0,
         'city': 'New York',
         'country': 'USA',
         'house_num': '12',
