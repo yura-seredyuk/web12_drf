@@ -1,2 +1,7 @@
 __pycache__
 migrations
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover

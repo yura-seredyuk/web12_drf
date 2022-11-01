@@ -60,6 +60,10 @@ def delete_special_adress():
     response = requests.delete(BASE_URL+'address_list/5')
     print(response, "\n\tstatus_code:", response.status_code)
 
+def delete_special_adress_():
+    response = requests.delete(BASE_URL+'address/8')
+    print(response, "\n\tstatus_code:", response.status_code)
+
 
 if __name__ == "__main__":
     # get_adresses()
@@ -67,6 +71,7 @@ if __name__ == "__main__":
     # post_special_adress()
     # put_special_adress()
     # get_adresses_()
-    put_special_adress_()
+    # put_special_adress_()
     # delete_special_adress()
+    delete_special_adress_()
     pass

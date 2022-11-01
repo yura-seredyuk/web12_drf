@@ -1,0 +1,8 @@
+# .coveragerc to control coverage.py
+[run]
+omit = */migrations/*
+        */__pycache__/*
+        */__init__.py
+        */settings.py
+        */tests.py
+        */manage.py 

@@ -1,3 +1,4 @@
+from copy import copy, deepcopy
 from urllib import response
 from django.test import TestCase
 from rest_framework.test import APITestCase, RequestsClient
@@ -24,8 +25,40 @@ class API_Testing(APITestCase):
         # print(response.json())
         self.assertEqual(response.status_code, 200)
 
-
     def test_post_address(self):
         response = self.client.post(BASE_URL + "address/", data=DATA)
         # print(response.json())
         self.assertEqual(response.status_code, 201)
+
+    def test_get_address(self):
+        response = self.client.get(BASE_URL + "address/1")
+        self.assertEqual(response.status_code, 200)
+
+    def test_update_address(self):
+        test_data = deepcopy(DATA)
+        test_data["appartaments"] = 200
+        response = self.client.put(BASE_URL + "address/1", data=test_data)
+        self.assertEqual(response.status_code, 200)
+
+    def test_delete_address(self):
+        response = self.client.delete(BASE_URL + "address/1")
+        self.assertEqual(response.status_code, 204)
+
+    def test_post_invalid_address(self):
+        test_data = deepcopy(DATA)
+        test_data["appartaments"] = 0
+        response = self.client.post(BASE_URL + "address/", data=test_data)
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('cannot be less or equal zero', response.json()['non_field_errors'][0])
+
+    def test_get_undefined_address(self):
+        response = self.client.get(BASE_URL + "address/100")
+        self.assertEqual(response.status_code, 404)
+
+    def test_delete_undefined_address(self):
+        response = self.client.delete(BASE_URL + "address/100")
+        self.assertEqual(response.status_code, 404)
+
+    def test_update_undefined_address(self):
+        response = self.client.put(BASE_URL + "address/100")
+        self.assertEqual(response.status_code, 404)
