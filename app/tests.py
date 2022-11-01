@@ -27,7 +27,8 @@ class API_Testing(APITestCase):
 
     def test_post_address(self):
         response = self.client.post(BASE_URL + "address/", data=DATA)
-        # print(response.json())
+        print(DATA)
+        print(response.json())
         self.assertEqual(response.status_code, 201)
 
     def test_get_address(self):
@@ -50,6 +51,31 @@ class API_Testing(APITestCase):
         response = self.client.post(BASE_URL + "address/", data=test_data)
         self.assertEqual(response.status_code, 400)
         self.assertIn('cannot be less or equal zero', response.json()['non_field_errors'][0])
+        print("Test 1. Passed")
+        test_data["appartaments"] = -5
+        response = self.client.post(BASE_URL + "address/", data=test_data)
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('cannot be less or equal zero', response.json()['non_field_errors'][0])
+        print("Test 2. Passed")
+        test_data["appartaments"] = "appartaments"
+        response = self.client.post(BASE_URL + "address/", data=test_data)
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('valid integer is required', response.json()["appartaments"][0])
+        print("Test 3. Passed")
+        test_data["appartaments"] = DATA["appartaments"]
+        test_data["country"] = "IO"
+        response = self.client.post(BASE_URL + "address/", data=test_data)
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('must consists with more then 2 characters', response.json()["non_field_errors"][0])
+        print("Test 4. Passed")
+        test_data["country"] = "Country123"
+        response = self.client.post(BASE_URL + "address/", data=test_data)
+        self.assertEqual(response.status_code, 400)
+        print("Test 5. Passed")
+
+
+
+
 
     def test_get_undefined_address(self):
         response = self.client.get(BASE_URL + "address/100")

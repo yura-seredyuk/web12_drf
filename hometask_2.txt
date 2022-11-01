@@ -1,0 +1,9 @@
+CLASSWORK: https://github.com/yura-seredyuk/web12_drf
+
+Завдання:
+    1. Додати CRUD операції для обробки моделі UserList
+    2. Покрити позитивними та негативними тестами створені CRUD операції
+    3. Додати в клієнта методи для проведення CRUD операцій
+
+запуск усіх тестів: python manage.py test -v 2
+запуск конкретного тесту: python manage.py test app.tests.API_Testing.test_post_address -v 2
