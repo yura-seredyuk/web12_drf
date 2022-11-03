@@ -23,12 +23,19 @@ class AddressSerializer(serializers.HyperlinkedModelSerializer):
         validators = [AddressValidator()]
 
     def create(self, validated_data):
-        # print(validated_data)
+        address = Address.objects.filter(**validated_data)
+        if address:
+            raise serializers.ValidationError("Serializer error: Address with tis data is already exists.")
         rezults = Address.objects.create(**validated_data)
-        # print(rezults.id)
         return rezults
 
     def update(self, instance, validated_data):
+        address = Address.objects.filter(**validated_data).first()
+        if address:
+            if address == instance:
+                return instance
+            else:
+                raise serializers.ValidationError("Serializer error: Address with tis data is already exists.")
         instance.country = validated_data.get('country', instance.country)
         instance.city = validated_data.get('city', instance.city)
         instance.zip_code = validated_data.get('zip_code', instance.zip_code)

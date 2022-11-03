@@ -19,14 +19,14 @@ def get_special_adress():
 
 def post_special_adress():
     data = {
-        'appartaments': 4254,
+        'appartaments': 42,
         'city': 'New York',
         'country': 'USA',
         'house_num': '33',
         'street': 'Freedom',
         'zip_code': 33027
     }
-    response = requests.post(BASE_URL+'address_list/', data=data)
+    response = requests.post(BASE_URL+'address/', data=data)
     print(response.json(), "\n\tstatus_code:", response.status_code)
 
 
@@ -45,15 +45,15 @@ def put_special_adress():
 
 def put_special_adress_():
     data = {
-        'id':8,
-        'appartaments': 0,
+        'id':11,
+        'appartaments': 42,
         'city': 'New York',
         'country': 'USA',
-        'house_num': '12',
+        'house_num': '33',
         'street': 'Freedom',
         'zip_code': 33027
     }
-    response = requests.put(BASE_URL+'address/8', data=data)
+    response = requests.put(BASE_URL+'address/11', data=data)
     print(response.json(), "\n\tstatus_code:", response.status_code)
 
 def delete_special_adress():
@@ -71,7 +71,7 @@ if __name__ == "__main__":
     # post_special_adress()
     # put_special_adress()
     # get_adresses_()
-    # put_special_adress_()
+    put_special_adress_()
     # delete_special_adress()
-    delete_special_adress_()
+    # delete_special_adress_()
     pass

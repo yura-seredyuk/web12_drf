@@ -26,20 +26,40 @@ class API_Testing(APITestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_post_address(self):
-        response = self.client.post(BASE_URL + "address/", data=DATA)
-        print(DATA)
-        print(response.json())
+        test_data = deepcopy(DATA)
+        test_data["appartaments"] = 1
+        response = self.client.post(BASE_URL + "address/", data=test_data)
         self.assertEqual(response.status_code, 201)
+
+    def test_post_duplicate_address(self):
+        response = self.client.post(BASE_URL + "address/", data=DATA)
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('Address with tis data is already exists', response.json()[0])
+
 
     def test_get_address(self):
         response = self.client.get(BASE_URL + "address/1")
         self.assertEqual(response.status_code, 200)
-
+    
     def test_update_address(self):
         test_data = deepcopy(DATA)
         test_data["appartaments"] = 200
         response = self.client.put(BASE_URL + "address/1", data=test_data)
         self.assertEqual(response.status_code, 200)
+
+    def test_update_address_without_changes(self):
+        test_data = deepcopy(DATA)
+        test_data["appartaments"] = 200
+        response = self.client.put(BASE_URL + "address/1", data=test_data)
+        self.assertEqual(response.status_code, 200)
+
+    def test_update_duplicate_address(self):
+        test_data = deepcopy(DATA)
+        test_data["appartaments"] = 1
+        response = self.client.post(BASE_URL + "address/", data=test_data)
+        response = self.client.put(BASE_URL + f"address/{response.json()['id']}", data=DATA)
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('Address with tis data is already exists', response.json()[0])
 
     def test_delete_address(self):
         response = self.client.delete(BASE_URL + "address/1")
@@ -73,10 +93,6 @@ class API_Testing(APITestCase):
         self.assertEqual(response.status_code, 400)
         print("Test 5. Passed")
 
-
-
-
-
     def test_get_undefined_address(self):
         response = self.client.get(BASE_URL + "address/100")
         self.assertEqual(response.status_code, 404)
@@ -88,3 +104,4 @@ class API_Testing(APITestCase):
     def test_update_undefined_address(self):
         response = self.client.put(BASE_URL + "address/100")
         self.assertEqual(response.status_code, 404)
+        
